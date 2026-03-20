@@ -14,8 +14,8 @@ public enum OperationType {
     MULTIPLY("*", (a, b) -> a * b),
     DIVIDE("/", (a, b) -> divide(a, b));
 
-    private final String symbol;
-    private final BinaryOperator<Double> operation;
+    private final String symbol; //연산자
+    private final BinaryOperator<Double> operation; //계산 결과
 
     OperationType(String symbol, BinaryOperator<Double> operation) {
         this.symbol = symbol;
@@ -24,19 +24,19 @@ public enum OperationType {
 
     public static OperationType from(String symbol) {
         return Arrays.stream(values())
-                .filter(type -> type.symbol.equals(symbol))
-                .findFirst()
+                .filter(type -> type.symbol.equals(symbol)) //연산자 찾기
+                .findFirst() //첫번째 결과
                 .orElseThrow(() -> new IllegalArgumentException("지원하지 않는 연산자입니다."));
-    }
+    }               //없으면 예외처리
 
     public double apply(double a, double b) {
         return operation.apply(a, b);
     }
 
     private static double divide(double a, double b) {
-        if (b == 0) {
+        if (b == 0) { //0으로 나누기 예외처리
             throw new IllegalArgumentException("0으로 나눌 수 없습니다.");
         }
-        return Math.round((a / b) * 10) / 10.0;
+        return Math.round((a / b) * 10) / 10.0; //소수점 계산
     }
 }
