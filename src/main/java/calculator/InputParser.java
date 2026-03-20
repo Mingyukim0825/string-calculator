@@ -15,9 +15,8 @@ public class InputParser {
     private static final String OP_PREFIX = "op="; //연산자 지정
 
     public ParsedInput parse(String input) {
-        validateInput(input); //null 체크
 
-        if (input.isBlank()) { //공백일때 0을 반환한다
+        if (input == null || input.isBlank()) { //공백일때 0을 반환한다
             return new ParsedInput(OperationType.ADD, List.of(0.0));
         }
 
@@ -67,13 +66,7 @@ public class InputParser {
             validateNegative(number); //음수체크
             return number;
         } catch (NumberFormatException e) { //숫자 아닐때 예외처리
-            throw new IllegalArgumentException("숫자가 아닌 값입니다.");
-        }
-    }
-
-    private void validateInput(String input) {
-        if (input == null) { //null일 때 예외처리
-            throw new IllegalArgumentException("입력이 null입니다.");
+            throw new IllegalArgumentException("숫자가 아닌 값이 포함되어 있습니다");
         }
     }
 
@@ -85,7 +78,7 @@ public class InputParser {
 
     private void validateNegative(double number) {
         if (number < 0) { //음수일 떄 예외처리
-            throw new IllegalArgumentException("음수는 허용되지 않습니다.");
+            throw new IllegalArgumentException("음수는 입력할 수 없습니다");
         }
     }
 }
